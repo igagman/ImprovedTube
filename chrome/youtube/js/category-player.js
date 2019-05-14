@@ -264,16 +264,21 @@ function video_rotate_button() {
 
             rotate = Number((rotate.match(/[0-9.]+/g) || [])[0]) || 0;
 
+            /*
             if (rotate < 270 && rotate % 90 == 0)
                 rotate = rotate + 90;
             else
                 rotate = 0;
-
+            */
+            rotate = (rotate + 90) % 360;
             transform += 'rotate(' + rotate + 'deg)';
-
-            if (rotate == 90 || rotate == 270)
-                transform += ' scale(' + video.offsetHeight / video.offsetWidth + ')';
-
+            
+            if (rotate == 90 || rotate == 270) {
+                if (video.offsetHeight > video.offsetWidth)
+                    transform += ' scale(' + video.offsetHeight / video.offsetWidth + ')';
+                else
+                    transform += ' scale(' + video.offsetWidth / video.offsetHeight + ')'; 
+            }            
             video.style.transform = transform;
         };
 
@@ -281,7 +286,6 @@ function video_rotate_button() {
 
     }
 }
-
 
 /*------------------------------------------------------------------------------
 8.3 Screenshot
